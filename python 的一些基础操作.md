@@ -1,28 +1,41 @@
 ---
-title: python 的一些基础操作
+title: 文本情绪分析
 tags: 新建,模板,小书匠
 grammar_cjkRuby: true
 ---
+[大刚性资料][1]
+[中英文情感分析包介绍][2]
+ TextBlob包
+ SnowNLP
+## 简单的根据中文的逻辑
+[语句规则型情感分析1][3]
+[语句规则型情感分析2][4]
+|  否定词 |  副词   | 情绪词  | 感叹号等符号  |
+| --- | --- | --- | --- |
+|  (-1) ^ 1   | 1.25    |   0.747   |  2   |
+相乘起来即可
+**优点**
+
+ - 简单易懂速度快
+ 
+**缺点**
 
 
-###　三元运算
-一般的是
-![enter description here][1]
-如result=5>3?1:0
-而python是
-![enter description here][2]
-如
-flag=1 if 5>3 else 0
+ - 首先，段落的得分是其所有句子得分的平均值，这一方法并不符合实际情况。正如文章中先后段落有重要性大小之分，一个段落中前后句子也同样有重要性的差异。
+ - 其次，有一类文本使用贬义词来表示正向意义，这类情况常出现与宣传文本中，还是那个例子
+ - 中文词性的多样性，情感词可名词可别的词
+ - 对于正负向文本的判断，该算法忽略了很多其他的否定词、程度副词和情感词搭配的情况；用于判断情感强弱也过于简单。
 
-### 
-defaultdict
-``` python
-from collections import defaultdict
-senDict = defaultdict()
-    for s in senList:
-        senDict[s.split(' ')[0]] = s.split(' ')[1]
-```
+## 使用Word2Vec
+**[方法1][5]**  ==[相关代码][6]== 
+使用Word2Vec训练语料库得到字词向量模型， ，以这些向量作为训练数据使用SVM或者神经网络得到所用词的情绪
+**问题** 
+这里得到的只是单个词的情绪，如何计算整个句子或者整个段落文章的情绪。
 
 
-  [1]: ./images/1498291211731.jpg
-  [2]: ./images/1498291256533.jpg
+  [1]: http://www.jianshu.com/p/60505518d7ee
+  [2]: http://www.jianshu.com/p/d50a14541d01
+  [3]: http://www.jianshu.com/p/06a4a8e77315
+  [4]: http://www.jianshu.com/p/4cfcf1610a73?nomobile=yes
+  [5]: http://www.jianshu.com/p/4cfcf1610a73?nomobile=yes
+  [6]: http://www.aidnoob.com/suibi/2017/20170502/
